@@ -1,3 +1,5 @@
+
+import 'package:dio_browser_nativo/screen/viaCepController.dart';
 import 'package:flutter/material.dart';
 
 class ViaCepScreenDart extends StatefulWidget {
@@ -9,6 +11,8 @@ class ViaCepScreenDart extends StatefulWidget {
 
 class _ViaCepScreenDartState extends State<ViaCepScreenDart> {
   final cepEC = TextEditingController();
+  //instancia da controller
+  final viaCepController = ViaCepController();
 
   @override
   void dispose() {
@@ -32,15 +36,32 @@ class _ViaCepScreenDartState extends State<ViaCepScreenDart> {
                   label: Text('CEP ', style: TextStyle(fontSize: 16)),
                   border: OutlineInputBorder()),
             ),
-            SizedBox(
-              height: 16,
-            ),
-            ElevatedButton(onPressed: () {}, child: Text('Buscar CEP')),
             const SizedBox(
               height: 16,
             ),
-            Text('Logradouro: ', style: TextStyle(fontSize: 16)),
-            Text('Cidade: ', style: TextStyle(fontSize: 16))
+            ElevatedButton(
+                onPressed: () {
+                  viaCepController.getEndereco(cepEC.text);
+                },
+                child: const Text('Buscar CEP')),
+            const SizedBox(
+              height: 16,
+            ),
+            //informações dentro do valueNotifier
+            ValueListenableBuilder(
+              valueListenable: viaCepController,
+              builder: (_, viaCepControllerValue, child) {
+                return Text('Logradouro: ${viaCepControllerValue.street}',
+                    style: const TextStyle(fontSize: 16));
+              },
+            ),
+            ValueListenableBuilder(
+              valueListenable: viaCepController,
+              builder: (_, viaCepControllerValue, child) {
+                return Text('Cidade: ${viaCepControllerValue.city}',
+                    style: const TextStyle(fontSize: 16));
+              },
+            ),
           ],
         ),
       ),

@@ -10,9 +10,9 @@ class ViaCepController extends ValueNotifier<({String city, String street})>{
   //implementar busca
   Future<void>getEndereco (String cepe) async{
     //pegar resultado
+    value = await repository.getEndereco(cepe);
     // final result = await repository.getEndereco(cepe);
     // value = result;
-    value = await repository.getEndereco(cepe);
   }
 
 }
